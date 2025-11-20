@@ -1,0 +1,4 @@
+*.env
+minecraft-server/data/
+!.gitkeep
+backups/

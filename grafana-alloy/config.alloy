@@ -1,0 +1,53 @@
+prometheus.scrape "prometheus_exporter" {
+  scrape_interval = "60s"
+  scrape_timeout  = "4s"
+
+  targets = [{
+    __address__ = "mc:19565",
+    job         = "prometheus-exporter",
+  }]
+
+  forward_to = [prometheus.relabel.minecraft.receiver]
+}
+
+prometheus.scrape "minecraft_exporter" {
+  scrape_interval = "60s"
+  scrape_timeout  = "4s"
+
+  targets = [{
+    __address__ = "minecraft-exporter:9150",
+    job         = "minecraft-exporter",
+  }]
+
+  forward_to = [prometheus.relabel.minecraft.receiver]
+}
+
+prometheus.relabel "minecraft" {
+  rule {
+    action        = "drop"
+    source_labels = ["__name__"]
+    regex         = "jvm_memory_pool_bytes_max"
+  }
+
+  rule {
+    action        = "drop"
+    source_labels = ["__name__"]
+    regex         = "jvm_gc_collection_seconds_sum"
+  }
+
+  forward_to = [prometheus.remote_write.cockpit.receiver]
+}
+
+prometheus.remote_write "cockpit" {
+  external_labels = {
+    cluster = env("COCKPIT_CLUSTER"),
+    env     = env("COCKPIT_ENV"),
+  }
+
+  endpoint {
+    url = env("COCKPIT_URL")
+    headers = {
+      "X-TOKEN" = env("COCKPIT_TOKEN"),
+    }
+  }
+}

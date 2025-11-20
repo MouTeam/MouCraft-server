@@ -1,0 +1,25 @@
+{
+  "file": "/data/config/waystones-common.toml",
+  "ops": [
+    {
+      "$set": {
+        "path": "$.inventoryButton.inventoryButton",
+        "value": "NONE"
+      }
+    },
+    {
+      "$set": {
+        "path": "$.teleports.warpRequirements",
+        "value": [
+          "[is_interdimensional, target_is_not_global] refuse(You can only make interdimensional travel using the global portals.)",
+          "scaled_add_xp_cost(distance, 0.03)",
+          "[target_is_global] multiply_xp_cost(0)",
+          "[target_is_global] min_cooldown(global_warp, 120)",
+          "[target_is_not_global] min_cooldown(default_warp, 300)",
+          "min_xp_cost(0)"
+        ],
+        "value-type": "array"
+      }
+    }
+  ]
+}

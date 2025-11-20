@@ -1,0 +1,26 @@
+{
+  "file": "/data/config/createoreexcavation-server.toml",
+  "ops": [
+    {
+      "$set": {
+        "path": "$.defaultInfinite",
+        "value": false,
+        "value-type": "bool"
+      }
+    },
+    {
+      "$set": {
+        "path": "$.maxExtractorsPerVein",
+        "value": 2,
+        "value-type": "int"
+      }
+    },
+    {
+      "$set": {
+        "path": "$.finiteAmountBase",
+        "value": 640,
+        "value-type": "int"
+      }
+    }
+  ]
+}

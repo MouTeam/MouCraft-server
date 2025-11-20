@@ -1,0 +1,65 @@
+services:
+  mc:
+    image: itzg/minecraft-server:2026.2.1-java21
+    tty: true
+    stdin_open: true
+    stop_grace_period: 1m30s
+    ports:
+      - "${MC_PORT}:25565"                # Minecraft
+      - "${BLUEMAP_PORT}:8100"            # BlueMap
+      - "${VOICE_PORT}:${VOICE_PORT}/udp" # Voice chat
+    environment:
+      REPLACE_ENV_VARIABLE_PREFIX: ""
+      REPLACE_ENV_VARIABLES: true
+      PATCH_DEFINITIONS: /patches
+    env_file:
+      - .env
+      - mc.env
+    volumes:
+      - ./minecraft-server/data:/data
+      - ./minecraft-server/config:/config
+      - ./minecraft-server/mods:/mods
+      - ./minecraft-server/patches:/patches
+
+  backup:
+    image: itzg/mc-backup:2026.2.1
+    depends_on:
+      mc:
+        condition: service_healthy
+    env_file:
+      - backup.env
+    volumes:
+      - ./backups:/backups
+      # minecraft-server data read-only
+      - ./minecraft-server/data:/data:ro
+
+  minecraft-exporter:
+    image: ghcr.io/dirien/minecraft-exporter:0.23.0
+    user: "1000:1000"
+    depends_on:
+      mc:
+        condition: service_healthy
+    environment:
+      MC_RCON_ADDRESS: "mc:25575"
+      MC_RCON_PASSWORD: "${RCON_PASSWORD}"
+      WEB_DISABLED_EXPORTER_METRICS: "1"
+      MC_MOD_SERVER_STATS: "forge"
+      MC_WORLD: "/data/world"
+      MC_CONFIG_PATH: "/minecraft-exporter/config.yml"
+    volumes:
+      - ./minecraft-exporter/config.yml:/minecraft-exporter/config.yml:ro
+      - ./minecraft-server/data/world:/data/world:ro
+
+  grafana-alloy:
+    image: grafana/alloy:v1.13.1
+    environment:
+      COCKPIT_CLUSTER: ${COCKPIT_CLUSTER}
+      COCKPIT_ENV: ${COCKPIT_ENV}
+      COCKPIT_URL: ${COCKPIT_URL}
+      COCKPIT_TOKEN: ${COCKPIT_TOKEN}
+    volumes:
+      - ./grafana-alloy/config.alloy:/etc/alloy/config.alloy
+    depends_on:
+      mc:
+        condition: service_healthy
+    command: [ "run", "--server.http.listen-addr=0.0.0.0:12345", "--storage.path=/var/lib/alloy/data", "/etc/alloy/config.alloy" ]

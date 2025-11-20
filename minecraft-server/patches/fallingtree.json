@@ -1,0 +1,24 @@
+{
+  "file": "/data/config/fallingtree.json",
+  "ops": [
+    {
+      "$set": {
+        "path": "$.trees.maxSizeAction",
+        "value": "CUT"
+      }
+    },
+    {
+      "$set": {
+        "path": "$.tools.durabilityMode",
+        "value": "SAVE"
+      }
+    },
+    {
+      "$set": {
+        "path": "$.tools.speedMultiplicand",
+        "value": 1.0,
+        "value-type": "float"
+      }
+    }
+  ]
+}

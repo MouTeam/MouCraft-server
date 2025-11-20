@@ -1,0 +1,19 @@
+{
+  "file": "/data/config/butcher.toml",
+  "ops": [
+    {
+      "$set": {
+        "path": "$.General['First Join Message']",
+        "value": false,
+        "value-type": "bool"
+      }
+    },
+    {
+      "$set": {
+        "path": "$['Mod Compatiblities']['Farmer\\'s Delight']",
+        "value": true,
+        "value-type": "bool"
+      }
+    }
+  ]
+}

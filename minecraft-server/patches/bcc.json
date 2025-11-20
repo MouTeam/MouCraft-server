@@ -1,0 +1,17 @@
+{
+  "file": "/data/config/bcc-common.toml",
+  "ops": [
+    {
+      "$set": {
+        "path": "$.general.modpackName",
+        "value": "moucraft"
+      }
+    },
+    {
+      "$set": {
+        "path": "$.general.modpackVersion",
+        "value": "${MODPACK_VERSION_TAG}"
+      }
+    }
+  ]
+}

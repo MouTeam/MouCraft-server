@@ -1,0 +1,11 @@
+{
+  "file": "/data/config/Mekanism/common.toml",
+  "ops": [
+    {
+      "$set": {
+        "path": "$.temperatureUnit",
+        "value": "CELSIUS"
+      }
+    }
+  ]
+}

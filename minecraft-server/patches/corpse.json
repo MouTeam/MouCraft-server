@@ -1,0 +1,12 @@
+{
+  "file": "/data/config/corpse-server.toml",
+  "ops": [
+    {
+      "$set": {
+        "path": "$.corpse.skeleton_time",
+        "value": 36000,
+        "value-type": "int"
+      }
+    }
+  ]
+}

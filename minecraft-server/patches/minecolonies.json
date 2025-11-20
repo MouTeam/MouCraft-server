@@ -1,0 +1,40 @@
+{
+  "file": "/data/config/minecolonies-server.toml",
+  "ops": [
+    {
+      "$set": {
+        "path": "$.gameplay.workersalwaysworkinrain",
+        "value": true,
+        "value-type": "bool"
+      }
+    },
+    {
+      "$set": {
+        "path": "$.gameplay.luckyblockchance",
+        "value": 5,
+        "value-type": "int"
+      }
+    },
+    {
+      "$set": {
+        "path": "$.gameplay.foodmodifier",
+        "value": 0.6,
+        "value-type": "float"
+      }
+    },
+    {
+      "$set": {
+        "path": "$.combat.averagenumberofnightsbetweenraids",
+        "value": 20,
+        "value-type": "int"
+      }
+    },
+    {
+      "$set": {
+        "path": "$.combat.minimumnumberofnightsbetweenraids",
+        "value": 16,
+        "value-type": "int"
+      }
+    }
+  ]
+}
